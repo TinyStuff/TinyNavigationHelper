@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\TinyNavigationHelper.Abstraction\TinyNavigationHelper.Abstraction.csproj" />
+    <ProjectReference Include="..\TinyNavigationHelper.Abstraction\TinyNavigationHelper.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>
