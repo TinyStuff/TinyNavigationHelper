@@ -5,7 +5,7 @@
       <PackageTargetFallback>
           portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20
       </PackageTargetFallback>
-      <Version>1.0.0-pre1</Version>
+      <Version>1.0.0-pre2</Version>
       <Authors>Daniel Hindrikes &amp; Johan Karlsson</Authors>
       <Company />
       <Product>Tiny Navigation Helper  for Xamarin.Forms</Product>
