@@ -69,5 +69,59 @@ navigationHelper.Back();
 ```
 
 ### Modal
+To open a modal, use the OpenModal method.
+```cs
+navigationHelper.OpenModal("MainView");
+```
+You can send a parameter to a modal in the same way as with the NavigateTo method.
+
+```cs
+navigationHelper.OpenModal("MainView", "parameter");
+```
+
+If you want the modal to have it's own navigation stack you can pass pass true the withNavigation argument.
+
+```cs
+//without parameter
+navigationHelper.OpenModal("MainView", true);
+
+//with parameter
+navigationHelper.OpenModal("MainView", "parameter", true);
+```
 
 ### Set as root page
+If you want to navigate to a page and reset the history in the navigation stack you can use the SetRootView method.
+
+```cs
+//without parameter and navigation stack
+navigationHelper.SetRootView("MainView");
+
+//with parameter, but without navigation stack
+navigationHelper.SetRootView("MainView", "parameter");
+
+//without parameter, but with navigation stack
+navigationHelper.SetRootView("MainView", true);
+
+//with parameter and navigation stack
+navigationHelper.SetRootView("MainView", "parameter", true);
+```
+
+### Handle view keys
+The recommendation is to not use the string directly in your code, but instead create a class with view constants.
+
+```cs
+public class ViewConstants
+{
+     public const string MainView = "MainView";
+}
+```
+
+```cs
+var navigationHelper = new NavigationHelper(this);
+navigationHelper.RegisterView<MainView>(ViewConstants.MainView);
+```
+
+```cs
+navigationHelper.NavigateTo(ViewConstants.MainView);
+```
+
