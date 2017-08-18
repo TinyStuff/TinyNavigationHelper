@@ -36,4 +36,38 @@ There are two ways to use the navigation helper. To resolve the INavigationHelpe
 ```cs
 var navigationHelper = NavigationHelper.Current;
 ```
-var navigationHelper = NavigationHelper.Current;
+
+### Navigate
+To navigate to a page use the NavigateTo method and the key you registered for the page.
+
+```cs
+navigationHelper.NavigateTo("MainView");
+```
+
+#### Navigate with parameter
+The NavigateTo method can take a argument if you want to pass a data to the view you're navigating to.
+
+```cs
+navigationHelper.NavigateTo("MainView", "Parameter");
+```
+The parameter will be sent to the constructor of the page.
+
+```cs
+public class MainView
+{
+     public MainView(object parameter)
+     {
+          var data = parameter as string;
+     }
+}
+```
+#### Navigate back
+To navigate back, use the Back method.
+
+```cs
+navigationHelper.Back();
+```
+
+### Modal
+
+### Set as root page
