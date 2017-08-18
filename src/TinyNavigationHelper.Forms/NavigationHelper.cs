@@ -29,19 +29,28 @@ namespace TinyNavigationHelper.Forms
                     _views.Add(key.ToLower(), type);
                 }           
         }
-        public void NavigateTo(string key)
+        public void NavigateTo(string key, object parameter)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                var page = (Page)Activator.CreateInstance(type);
+                Page page = null;
+
+                if (parameter == null)
+                {
+                    page = (Page)Activator.CreateInstance(type);
+                }
+                else
+                {
+                    page = (Page)Activator.CreateInstance(type, parameter);
+                }
 
                 if (_app.MainPage is TabbedPage tabbedpage)
                 {
                     var selected = (Page)tabbedpage.SelectedItem;
 
-                    if(selected.Navigation != null)
+                    if (selected.Navigation != null)
                     {
                         selected.Navigation.PushAsync(page);
 
@@ -49,27 +58,46 @@ namespace TinyNavigationHelper.Forms
                     }
                 }
 
-                _app.MainPage.Navigation.PushAsync(page); 
+                _app.MainPage.Navigation.PushAsync(page);
             }
         }
 
-        public void OpenModal(string key, bool withNavigation = false)
+        public void NavigateTo(string key)
+        {
+            NavigateTo(key, null);
+        }
+
+        public void OpenModal(string key, object parameter, bool withNavigation = false)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                var page = (Page)Activator.CreateInstance(type);
+                Page page = null;
+
+                if (parameter == null)
+                {
+                    page = (Page)Activator.CreateInstance(type); 
+                }
+                else
+                {
+                    page = (Page)Activator.CreateInstance(type, parameter);
+                }
 
                 if (withNavigation)
                 {
-                    _app.MainPage.Navigation.PushModalAsync(page); 
+                    _app.MainPage.Navigation.PushModalAsync(page);
                 }
                 else
                 {
                     _app.MainPage.Navigation.PushModalAsync(new NavigationPage(page));
                 }
             }
+        }
+
+        public void OpenModal(string key, bool withNavigation = false)
+        {
+            OpenModal(key, null, withNavigation);
         }
 
         public void CloseModal()
@@ -94,23 +122,37 @@ namespace TinyNavigationHelper.Forms
             _app.MainPage.Navigation.PopAsync();
         }
 
-        public void SetRootView(string key, bool withNavigation = true)
+        public void SetRootView(string key, object parameter, bool withNavigation = true)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                var page = (Page)Activator.CreateInstance(type);
+                Page page = null;
+
+                if (parameter == null)
+                {
+                    page = (Page)Activator.CreateInstance(type);
+                }
+                else
+                {
+                    page = (Page)Activator.CreateInstance(type, parameter);
+                }
 
                 if (withNavigation)
                 {
-                    _app.MainPage = new NavigationPage(page); 
+                    _app.MainPage = new NavigationPage(page);
                 }
                 else
                 {
                     _app.MainPage = page;
                 }
             }
+        }
+
+        public void SetRootView(string key, bool withNavigation = true)
+        {
+            SetRootView(key, null, withNavigation);
         }
     }
 }

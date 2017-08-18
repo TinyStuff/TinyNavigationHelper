@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
+    <Description />
+    <PackageLicenseUrl>https://github.com/dhindrik/TinyNavigationHelper/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Git</RepositoryType>
+    <RepositoryUrl>https://github.com/dhindrik/TinyNavigationHelper</RepositoryUrl>
+    <Company />
+    <Product>Tiny Navigation Helper Abstraction</Product>
+    <Authors>Daniel Hindrikes &amp; Johan Karlsson</Authors>
+    <Version>1.0.0-pre1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>Copyright 2017 - Johan Karlsson and Daniel Hindrikes</Copyright>
   </PropertyGroup>
 
 </Project>
