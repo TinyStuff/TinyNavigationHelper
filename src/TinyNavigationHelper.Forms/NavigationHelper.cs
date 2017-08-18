@@ -9,6 +9,7 @@ namespace TinyNavigationHelper.Forms
     {
         private Application _app;
         private Dictionary<string, Type> _views = new Dictionary<string, Type>();
+        private NavigationPage _modalNavigationPage;
 
         public NavigationHelper(Application app)
         {
@@ -46,19 +47,27 @@ namespace TinyNavigationHelper.Forms
                     page = (Page)Activator.CreateInstance(type, parameter);
                 }
 
-                if (_app.MainPage is TabbedPage tabbedpage)
+
+                if(_modalNavigationPage == null)
                 {
-                    var selected = (Page)tabbedpage.SelectedItem;
-
-                    if (selected.Navigation != null)
+                    if (_app.MainPage is TabbedPage tabbedpage)
                     {
-                        selected.Navigation.PushAsync(page);
+                        var selected = (Page)tabbedpage.SelectedItem;
 
-                        return;
+                        if (selected.Navigation != null)
+                        {
+                            selected.Navigation.PushAsync(page);
+
+                            return;
+                        }
                     }
-                }
 
-                _app.MainPage.Navigation.PushAsync(page);
+                    _app.MainPage.Navigation.PushAsync(page); 
+                }
+                else
+                {
+
+                }
             }
         }
 
@@ -90,7 +99,8 @@ namespace TinyNavigationHelper.Forms
                 }
                 else
                 {
-                    _app.MainPage.Navigation.PushModalAsync(new NavigationPage(page));
+                    _modalNavigationPage = new NavigationPage(page);
+                    _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
                 }
             }
         }
@@ -101,8 +111,9 @@ namespace TinyNavigationHelper.Forms
         }
 
         public void CloseModal()
-        {
+        {           
             _app.MainPage.Navigation.PopModalAsync();
+            _modalNavigationPage = null;
         }
 
         public void Back()
