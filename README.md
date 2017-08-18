@@ -19,9 +19,16 @@ Install-Package TinyNavigationHelper.Abstraction -pre
 ## How to configure navigation for Xamarin.Forms
 
 ```cs
+// Option 1: Register single views
 var navigationHelper = new NavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
+
+// Option 2: Register all views (pages) that is inherited from Page
+// The class name will be the key.
+var asm = typeof(App).GetTypeInfo().Assembly;
+navigationHelper.RegisterViewsInAssembly(asm);
 ```
+
 If you want to use it with an IoC instance you need to register the specific instance in the IoC container. The example below is how to register in Autofac, but you can use the container you prefer.
 
 ```cs
