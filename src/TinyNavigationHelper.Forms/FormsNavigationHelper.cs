@@ -5,15 +5,17 @@ using Xamarin.Forms;
 
 namespace TinyNavigationHelper.Forms
 {
-    public class NavigationHelper : INavigationHelper
+    public class FormsNavigationHelper : INavigationHelper
     {
         private Application _app;
         private Dictionary<string, Type> _views = new Dictionary<string, Type>();
         private NavigationPage _modalNavigationPage;
 
-        public NavigationHelper(Application app)
+        public FormsNavigationHelper(Application app)
         {
             _app = app;
+
+            Abstraction.NavigationHelper.Current = this;
         }
 
         public void RegisterView<T>(string key)
