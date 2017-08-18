@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using SampleApp.Views;
+using TinyNavigationHelper.Forms;
+using Xamarin.Forms;
 
 namespace SampleApp
 {
@@ -8,7 +10,13 @@ namespace SampleApp
         {
             InitializeComponent();
 
-            MainPage = new SampleAppPage();
+            // Register views
+			var navigationHelper = new FormsNavigationHelper(this);
+			navigationHelper.RegisterView<MainView>("MainView");
+            navigationHelper.RegisterView<AboutView>("AboutView");
+            navigationHelper.RegisterView<SettingsView>("SettingsView");
+
+            MainPage = new NavigationPage(new MainView());
         }
 
         protected override void OnStart()
