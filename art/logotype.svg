@@ -73,7 +73,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.86953125"
      inkscape:cx="326.12309"
-     inkscape:cy="612.00359"
+     inkscape:cy="888.01438"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -100,7 +100,9 @@
      id="layer1">
     <g
        id="g4369"
-       transform="matrix(1.2336729,0,0,1.2336729,-22.940552,-217.7186)">
+       transform="matrix(1.2336729,0,0,1.2336729,-23.836879,-217.7186)"
+       inkscape:export-xdpi="87.839996"
+       inkscape:export-ydpi="87.839996">
       <rect
          transform="matrix(0.96574069,0.25950901,-0.0860907,0.9962873,0,0)"
          y="338.47653"
@@ -138,7 +140,9 @@
     </g>
     <g
        id="g4344"
-       transform="translate(-88.55346,-70.052112)">
+       transform="matrix(0.81864232,0,0,0.81864232,-28.496844,17.253204)"
+       inkscape:export-xdpi="87.839996"
+       inkscape:export-ydpi="87.839996">
       <g
          id="g4318">
         <path
