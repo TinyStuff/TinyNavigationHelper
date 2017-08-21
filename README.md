@@ -1,3 +1,6 @@
+#Build status
+<img src="https://io2gamelabs.visualstudio.com/_apis/public/build/definitions/be16d002-5786-41a1-bf3b-3e13d5e80aa0/7/badge" alt="Build status" />
+
 # TinyNavigationHelper
 TinyNavigationHelper is a library that is created for you that want to abstract the navigation without installing a bigger MVVM framework. 
 
