@@ -19,7 +19,7 @@ Install-Package TinyNavigationHelper.Abstraction -pre
 ## How to configure navigation for Xamarin.Forms
 
 ```cs
-var navigationHelper = new NavigationHelper(this);
+var navigationHelper = new FormsNavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
 ```
 If you want to use it with an IoC instance you need to register the specific instance in the IoC container. The example below is how to register in Autofac, but you can use the container you prefer.
