@@ -11,13 +11,13 @@ Today there are only an implementation for Xamarin.Forms, but it created in a wa
 For your Xamarin.Forms project install the package from NuGet:
 
 ```
-Install-Package TinyNavigationHelper.Forms -pre
+Install-Package TinyNavigationHelper.Forms
 ```
 
 If you want to use navigation from a project that not has references to Xamarin.Forms (for example if you have your ViewModels in a separete project for use on other platforms), install the abstraction package for that project.
 
 ```
-Install-Package TinyNavigationHelper.Abstraction -pre
+Install-Package TinyNavigationHelper.Abstraction
 ```
 
 ## How to configure navigation for Xamarin.Forms
