@@ -8,9 +8,9 @@ namespace SampleApp.ViewModels
 {
     public class MainViewModel
     {
-        public ICommand NavigateTo { get; } = new Command((obj) =>
+        public ICommand NavigateTo { get; } = new Command(async (obj) =>
         {
-            NavigationHelper.Current.NavigateTo(obj.ToString());
+            await NavigationHelper.Current.NavigateToAsync(obj.ToString());
         });
     }
 }

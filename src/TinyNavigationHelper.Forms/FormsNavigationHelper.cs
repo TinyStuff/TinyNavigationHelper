@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Linq;
 using Xamarin.Forms;
 
@@ -28,15 +29,15 @@ namespace TinyNavigationHelper.Forms
 
         private void InternalRegisterView(Type type, string key)
         {
-			if (_views.ContainsKey(key.ToLower()))
-			{
-				_views[key.ToLower()] = type;
-			}
-			else
-			{
-				_views.Add(key.ToLower(), type);
-			}
-		}
+			     if (_views.ContainsKey(key.ToLower()))
+			     {
+				       _views[key.ToLower()] = type;
+			     }
+			     else
+			     {
+				      _views.Add(key.ToLower(), type);
+			     }
+		   }
 
         /// <summary>
         /// Registers the views in assembly that inherit from Page
@@ -50,7 +51,7 @@ namespace TinyNavigationHelper.Forms
             }
         }
 
-        public void NavigateTo(string key, object parameter)
+        public async Task NavigateToAsync(string key, object parameter)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
@@ -76,13 +77,13 @@ namespace TinyNavigationHelper.Forms
 
                         if (selected.Navigation != null)
                         {
-                            selected.Navigation.PushAsync(page);
+                            await selected.Navigation.PushAsync(page);
 
                             return;
                         }
                     }
 
-                    _app.MainPage.Navigation.PushAsync(page); 
+                    await _app.MainPage.Navigation.PushAsync(page); 
                 }
                 else
                 {
@@ -91,12 +92,12 @@ namespace TinyNavigationHelper.Forms
             }
         }
 
-        public void NavigateTo(string key)
+        public async Task NavigateToAsync(string key)
         {
-            NavigateTo(key, null);
+            await NavigateToAsync(key, null);
         }
 
-        public void OpenModal(string key, object parameter, bool withNavigation = false)
+        public async Task OpenModalAsync(string key, object parameter, bool withNavigation = false)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
@@ -115,28 +116,28 @@ namespace TinyNavigationHelper.Forms
 
                 if (withNavigation)
                 {
-                    _app.MainPage.Navigation.PushModalAsync(page);
+                    await _app.MainPage.Navigation.PushModalAsync(page);
                 }
                 else
                 {
                     _modalNavigationPage = new NavigationPage(page);
-                    _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+                    await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
                 }
             }
         }
 
-        public void OpenModal(string key, bool withNavigation = false)
+        public async Task OpenModalAsync(string key, bool withNavigation = false)
         {
-            OpenModal(key, null, withNavigation);
+            await OpenModalAsync(key, null, withNavigation);
         }
 
-        public void CloseModal()
+        public async Task CloseModalAsync()
         {           
-            _app.MainPage.Navigation.PopModalAsync();
+            await _app.MainPage.Navigation.PopModalAsync();
             _modalNavigationPage = null;
         }
 
-        public void Back()
+        public async Task BackAsync()
         {
             if (_app.MainPage is TabbedPage tabbedpage)
             {
@@ -144,13 +145,13 @@ namespace TinyNavigationHelper.Forms
 
                 if (selected.Navigation != null)
                 {
-                    selected.Navigation.PopAsync();
+                    await selected.Navigation.PopAsync();
 
                     return;
                 }
             }
 
-            _app.MainPage.Navigation.PopAsync();
+            await _app.MainPage.Navigation.PopAsync();
         }
 
         public void SetRootView(string key, object parameter, bool withNavigation = true)

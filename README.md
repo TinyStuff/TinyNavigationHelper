@@ -48,14 +48,14 @@ var navigationHelper = NavigationHelper.Current;
 To navigate to a page use the NavigateTo method and the key you registered for the page.
 
 ```cs
-navigationHelper.NavigateTo("MainView");
+await navigationHelper.NavigateToAsync("MainView");
 ```
 
 #### Navigate with parameter
 The NavigateTo method can take a argument if you want to pass a data to the view you're navigating to.
 
 ```cs
-navigationHelper.NavigateTo("MainView", "Parameter");
+await navigationHelper.NavigateToAsync("MainView", "Parameter");
 ```
 The parameter will be sent to the constructor of the page.
 
@@ -72,28 +72,28 @@ public class MainView
 To navigate back, use the Back method.
 
 ```cs
-navigationHelper.Back();
+await navigationHelper.BackAsync();
 ```
 
 ### Modal
 To open a modal, use the OpenModal method.
 ```cs
-navigationHelper.OpenModal("MainView");
+await navigationHelper.OpenModalAsync("MainView");
 ```
 You can send a parameter to a modal in the same way as with the NavigateTo method.
 
 ```cs
-navigationHelper.OpenModal("MainView", "parameter");
+await navigationHelper.OpenModalAsync("MainView", "parameter");
 ```
 
 If you want the modal to have it's own navigation stack you can pass pass true the withNavigation argument.
 
 ```cs
 //without parameter
-navigationHelper.OpenModal("MainView", true);
+await navigationHelper.OpenModalAsync("MainView", true);
 
 //with parameter
-navigationHelper.OpenModal("MainView", "parameter", true);
+await navigationHelper.OpenModalAsync("MainView", "parameter", true);
 ```
 
 ### Set as root page
@@ -129,6 +129,6 @@ navigationHelper.RegisterView<MainView>(ViewConstants.MainView);
 ```
 
 ```cs
-navigationHelper.NavigateTo(ViewConstants.MainView);
+await navigationHelper.NavigateToAsync(ViewConstants.MainView);
 ```
 
