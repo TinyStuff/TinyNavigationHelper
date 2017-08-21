@@ -1,4 +1,5 @@
-﻿using SampleApp.Views;
+﻿using System.Reflection;
+using SampleApp.Views;
 using TinyNavigationHelper.Forms;
 using Xamarin.Forms;
 
@@ -12,9 +13,13 @@ namespace SampleApp
 
             // Register views
 			var navigationHelper = new FormsNavigationHelper(this);
-			navigationHelper.RegisterView<MainView>("MainView");
+
+			/* navigationHelper.RegisterView<MainView>("MainView");
             navigationHelper.RegisterView<AboutView>("AboutView");
-            navigationHelper.RegisterView<SettingsView>("SettingsView");
+            navigationHelper.RegisterView<SettingsView>("SettingsView"); */
+
+			var asm = typeof(App).GetTypeInfo().Assembly;
+            navigationHelper.RegisterViewsInAssembly(asm);
 
             MainPage = new NavigationPage(new MainView());
         }
