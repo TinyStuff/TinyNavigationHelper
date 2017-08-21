@@ -20,7 +20,7 @@ Install-Package TinyNavigationHelper.Abstraction -pre
 
 ```cs
 // Option 1: Register single views
-var navigationHelper = new NavigationHelper(this);
+var navigationHelper = new FormsNavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
 
 // Option 2: Register all views (pages) that is inherited from Page
