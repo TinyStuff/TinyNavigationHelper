@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace TinyNavigationHelper.Forms
@@ -18,20 +20,36 @@ namespace TinyNavigationHelper.Forms
             Abstraction.NavigationHelper.Current = this;
         }
 
-        public void RegisterView<T>(string key)
+        public void RegisterView<T>(string key) where T : Page
         {
             var type = typeof(T);
-
-            
-                if (_views.ContainsKey(key.ToLower()))
-                {
-                    _views[key.ToLower()] = type;
-                }
-                else
-                {
-                    _views.Add(key.ToLower(), type);
-                }           
+            InternalRegisterView(type, key); 
         }
+
+        private void InternalRegisterView(Type type, string key)
+        {
+			if (_views.ContainsKey(key.ToLower()))
+			{
+				_views[key.ToLower()] = type;
+			}
+			else
+			{
+				_views.Add(key.ToLower(), type);
+			}
+		}
+
+        /// <summary>
+        /// Registers the views in assembly that inherit from Page
+        /// </summary>
+        /// <param name="assembly">The assembly to inspect</param>
+        public void RegisterViewsInAssembly(Assembly assembly)
+        {
+            foreach(var type in assembly.DefinedTypes.Where(e => e.IsSubclassOf(typeof(Page))))
+            {
+                InternalRegisterView(type.AsType(), type.Name);
+            }
+        }
+
         public void NavigateTo(string key, object parameter)
         {
             if (_views.ContainsKey(key.ToLower()))
