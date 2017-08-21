@@ -9,9 +9,10 @@
     <Company />
     <Product>Tiny Navigation Helper Abstraction</Product>
     <Authors>Daniel Hindrikes &amp; Johan Karlsson</Authors>
-    <Version>1.0.0-pre2</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Copyright>Copyright 2017 - Johan Karlsson and Daniel Hindrikes</Copyright>
+    <PackageIconUrl>https://l.messenger.com/l.php?u=http%3A%2F%2Fi.imgur.com%2FSeZNvjG.png%3F1&amp;h=ATPmixMHQEZyMBkb5ExlzOM9gJOndPKFxONE1HLQbo3h7Tu7_coE2xi14FGc3nyrAKp1pPyuU6Ah8zM2KrPrTartKfScN-bfSdVpevS3ySqaX3JuCdmFE-VAxDh88dzh8kwqXkUutU5vZhvp</PackageIconUrl>
   </PropertyGroup>
 
 </Project>
