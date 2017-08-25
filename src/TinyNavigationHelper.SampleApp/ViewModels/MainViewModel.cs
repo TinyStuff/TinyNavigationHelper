@@ -12,5 +12,10 @@ namespace SampleApp.ViewModels
         {
             await NavigationHelper.Current.NavigateToAsync(obj.ToString());
         });
+
+        public ICommand SetRootView { get; } = new Command((obj) =>
+        {
+            NavigationHelper.Current.SetRootView(obj.ToString(), false);
+        });
     }
 }

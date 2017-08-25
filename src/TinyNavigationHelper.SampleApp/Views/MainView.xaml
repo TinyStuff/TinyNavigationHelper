@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SampleApp.Views.MainView">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="SampleApp.Views.MainView" Title="MainView">
 	<ContentPage.Content>
         <StackLayout>
-            <Label Text="MainView" />
+          
             <Button Text="About" Command="{Binding NavigateTo}" CommandParameter="AboutView" />
             <Button Text="Settings" Command="{Binding NavigateTo}" CommandParameter="SettingsView" />
+            <Button Text="Tabbed view" Command="{Binding SetRootView}" CommandParameter="TabbedView" />
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

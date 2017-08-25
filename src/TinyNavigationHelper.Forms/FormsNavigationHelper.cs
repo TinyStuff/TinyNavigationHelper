@@ -73,7 +73,7 @@ namespace TinyNavigationHelper.Forms
                 {
                     if (_app.MainPage is TabbedPage tabbedpage)
                     {
-                        var selected = (Page)tabbedpage.SelectedItem;
+                        var selected = tabbedpage.CurrentPage;
 
                         if (selected.Navigation != null)
                         {

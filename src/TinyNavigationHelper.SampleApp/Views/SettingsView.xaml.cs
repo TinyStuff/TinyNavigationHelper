@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SampleApp.ViewModels;
+using System;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -10,6 +11,8 @@ namespace SampleApp.Views
         public SettingsView()
         {
             InitializeComponent();
+
+            BindingContext = new MainViewModel();
         }
     }
 }
