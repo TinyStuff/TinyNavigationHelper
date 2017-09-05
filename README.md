@@ -28,7 +28,7 @@ var navigationHelper = new FormsNavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
 
 // Option 2: Register all views (pages) that is inherited from Page
-// The class name will be the key.
+// The class name will be the key. To use this, you need to add using System.Reflection;
 var asm = typeof(App).GetTypeInfo().Assembly;
 navigationHelper.RegisterViewsInAssembly(asm);
 ```
