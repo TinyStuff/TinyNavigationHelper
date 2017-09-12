@@ -27,6 +27,11 @@ namespace TinyNavigationHelper.Forms
             InternalRegisterView(type, key); 
         }
 
+        public void RegisterView(string key, Type type)
+        {
+            InternalRegisterView(type, key);
+        }
+
         private void InternalRegisterView(Type type, string key)
         {
 			     if (_views.ContainsKey(key.ToLower()))
