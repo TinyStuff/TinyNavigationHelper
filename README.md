@@ -27,7 +27,11 @@ Install-Package TinyNavigationHelper.Abstraction
 var navigationHelper = new FormsNavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
 
-// Option 2: Register all views (pages) that is inherited from Page
+// Option 2: Register single views
+var navigationHelper = new FormsNavigationHelper(this);
+navigationHelper.RegisterView("MainView", typeof(MainView));
+
+// Option 3: Register all views (pages) that is inherited from Page
 // The class name will be the key. To use this, you need to add using System.Reflection;
 var asm = typeof(App).GetTypeInfo().Assembly;
 navigationHelper.RegisterViewsInAssembly(asm);
