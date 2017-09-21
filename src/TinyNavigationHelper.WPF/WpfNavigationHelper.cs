@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -91,6 +92,18 @@ namespace TinyNavigationHelper.WPF
             }
 
             NavigateToAsync(key, parameter);
+        }
+
+        /// <summary>
+        /// Registers the views in assembly that inherit from Page
+        /// </summary>
+        /// <param name="assembly">The assembly to inspect</param>
+        public void RegisterViewsInAssembly(Assembly assembly)
+        {
+            foreach (var type in assembly.DefinedTypes.Where(e => e.IsSubclassOf(typeof(Page))))
+            {
+                RegisterView(type.Name, type);
+            }
         }
     }
 }
