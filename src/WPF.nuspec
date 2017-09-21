@@ -15,7 +15,7 @@
             
         </releaseNotes>
         <dependencies>
-            <dependency id="TinyNavigationHelper" version="1.0.11" />
+            <dependency id="TinyNavigationHelper.Abstraction" version="1.0.11" />
         </dependencies>
 
     </metadata>
