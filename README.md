@@ -1,3 +1,6 @@
+# Build status		
+<img src="https://io2gamelabs.visualstudio.com/_apis/public/build/definitions/be16d002-5786-41a1-bf3b-3e13d5e80aa0/7/badge" alt="Build status" />
+
 # TinyNavigationHelper
 TinyNavigationHelper is a library that is created for you that want to abstract the navigation without installing a bigger MVVM framework. 
 
@@ -21,6 +24,15 @@ Install-Package TinyNavigationHelper.Abstraction -pre
 ```cs
 var navigationHelper = new NavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
+		
+// Option 2: Register single views		
+var navigationHelper = new FormsNavigationHelper(this);		
+navigationHelper.RegisterView("MainView", typeof(MainView));		
+		
+// Option 3: Register all views (pages) that is inherited from Page		
+// The class name will be the key. To use this, you need to add using System.Reflection;		
+var asm = typeof(App).GetTypeInfo().Assembly;		
+navigationHelper.RegisterViewsInAssembly(asm);
 ```
 If you want to use it with an IoC instance you need to register the specific instance in the IoC container. The example below is how to register in Autofac, but you can use the container you prefer.
 
