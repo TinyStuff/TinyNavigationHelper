@@ -6,6 +6,7 @@
             <Button Text="About" Command="{Binding NavigateTo}" CommandParameter="AboutView" />
             <Button Text="Settings" Command="{Binding NavigateTo}" CommandParameter="SettingsView" />
             <Button Text="Tabbed view" Command="{Binding SetRootView}" CommandParameter="TabbedView" />
+            <Button Text="News" Command="{Binding NavigateToNews}" />
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>
