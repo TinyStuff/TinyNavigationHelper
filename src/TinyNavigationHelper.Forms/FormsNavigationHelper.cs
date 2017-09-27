@@ -56,6 +56,36 @@ namespace TinyNavigationHelper.Forms
             }
         }
 
+        /// <summary>
+        /// Navigates to async.
+        /// </summary>
+        /// <returns>The to async.</returns>
+        /// <param name="page">Page.</param>
+        /// <remarks>Not exposed by the interface but added as an extension</remarks>
+        public async Task NavigateToAsync(Page page)
+        {
+			if (_modalNavigationPage == null)
+			{
+				if (_app.MainPage is TabbedPage tabbedpage)
+				{
+					var selected = tabbedpage.CurrentPage;
+
+					if (selected.Navigation != null)
+					{
+						await selected.Navigation.PushAsync(page);
+
+						return;
+					}
+				}
+
+				await _app.MainPage.Navigation.PushAsync(page);
+			}
+			else
+			{
+
+			}
+        }
+
         public async Task NavigateToAsync(string key, object parameter)
         {
             if (_views.ContainsKey(key.ToLower()))
@@ -73,33 +103,26 @@ namespace TinyNavigationHelper.Forms
                     page = (Page)Activator.CreateInstance(type, parameter);
                 }
 
-
-                if(_modalNavigationPage == null)
-                {
-                    if (_app.MainPage is TabbedPage tabbedpage)
-                    {
-                        var selected = tabbedpage.CurrentPage;
-
-                        if (selected.Navigation != null)
-                        {
-                            await selected.Navigation.PushAsync(page);
-
-                            return;
-                        }
-                    }
-
-                    await _app.MainPage.Navigation.PushAsync(page); 
-                }
-                else
-                {
-
-                }
+                await NavigateToAsync(page);
             }
         }
 
         public async Task NavigateToAsync(string key)
         {
             await NavigateToAsync(key, null);
+        }
+
+		public async Task OpenModalAsync(Page page, bool withNavigation = false)
+        {
+			if (withNavigation)
+			{
+				await _app.MainPage.Navigation.PushModalAsync(page);
+			}
+			else
+			{
+				_modalNavigationPage = new NavigationPage(page);
+				await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+			}
         }
 
         public async Task OpenModalAsync(string key, object parameter, bool withNavigation = false)
@@ -119,15 +142,7 @@ namespace TinyNavigationHelper.Forms
                     page = (Page)Activator.CreateInstance(type, parameter);
                 }
 
-                if (withNavigation)
-                {
-                    await _app.MainPage.Navigation.PushModalAsync(page);
-                }
-                else
-                {
-                    _modalNavigationPage = new NavigationPage(page);
-                    await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
-                }
+                await OpenModalAsync(page, withNavigation);
             }
         }
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
-
+using SampleApp.Views;
 using TinyNavigationHelper.Abstraction;
+using TinyNavigationHelper.Forms;
 using Xamarin.Forms;
 
 namespace SampleApp.ViewModels
@@ -16,6 +17,15 @@ namespace SampleApp.ViewModels
         public ICommand SetRootView { get; } = new Command((obj) =>
         {
             NavigationHelper.Current.SetRootView(obj.ToString(), false);
+        });
+
+        public ICommand NavigateToNews { get; } = new Command(async () =>
+        {
+            // This is using an extension method on the Forms implementation
+            // of the INavigationHelper so we can pass already created views
+            // if we are in a forms enviroment.
+            var page = new NewsView();
+            await NavigationHelper.Current.NavigateToAsync(page);
         });
     }
 }
