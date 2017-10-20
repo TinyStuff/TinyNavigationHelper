@@ -1,5 +1,4 @@
-# Build status
-
+# Build status		
 <img src="https://io2gamelabs.visualstudio.com/_apis/public/build/definitions/be16d002-5786-41a1-bf3b-3e13d5e80aa0/7/badge" alt="Build status" />
 
 # TinyNavigationHelper
@@ -11,32 +10,30 @@ Today there are only an implementation for Xamarin.Forms, but it created in a wa
 For your Xamarin.Forms project install the package from NuGet:
 
 ```
-Install-Package TinyNavigationHelper.Forms
+Install-Package TinyNavigationHelper.Forms -pre
 ```
 
 If you want to use navigation from a project that not has references to Xamarin.Forms (for example if you have your ViewModels in a separete project for use on other platforms), install the abstraction package for that project.
 
 ```
-Install-Package TinyNavigationHelper.Abstraction
+Install-Package TinyNavigationHelper.Abstraction -pre
 ```
 
 ## How to configure navigation for Xamarin.Forms
 
 ```cs
-// Option 1: Register single views
-var navigationHelper = new FormsNavigationHelper(this);
+var navigationHelper = new NavigationHelper(this);
 navigationHelper.RegisterView<MainView>("MainView");
-
-// Option 2: Register single views
-var navigationHelper = new FormsNavigationHelper(this);
-navigationHelper.RegisterView("MainView", typeof(MainView));
-
-// Option 3: Register all views (pages) that is inherited from Page
-// The class name will be the key. To use this, you need to add using System.Reflection;
-var asm = typeof(App).GetTypeInfo().Assembly;
+		
+// Option 2: Register single views		
+var navigationHelper = new FormsNavigationHelper(this);		
+navigationHelper.RegisterView("MainView", typeof(MainView));		
+		
+// Option 3: Register all views (pages) that is inherited from Page		
+// The class name will be the key. To use this, you need to add using System.Reflection;		
+var asm = typeof(App).GetTypeInfo().Assembly;		
 navigationHelper.RegisterViewsInAssembly(asm);
 ```
-
 If you want to use it with an IoC instance you need to register the specific instance in the IoC container. The example below is how to register in Autofac, but you can use the container you prefer.
 
 ```cs
@@ -81,6 +78,20 @@ To navigate back, use the Back method.
 
 ```cs
 await navigationHelper.BackAsync();
+```
+
+#### Forms specific extensions
+On Xamarin Forms there are a set of extension methods that allows for navigation to an instantiated page. Note that this will only work on the project that references `TinyNavigationHelper.Forms`.
+
+WARNING: This will only work in Xamarin Forms since it references `Xamarin.Forms`.
+
+```cs
+// Step 1 - Add a using to reference the extension method
+using TinyNavigationHelper.Forms;
+
+// Step 2 - Navigate
+var page = new NewsView();
+await NavigationHelper.Current.NavigateToAsync(page);
 ```
 
 ### Modal

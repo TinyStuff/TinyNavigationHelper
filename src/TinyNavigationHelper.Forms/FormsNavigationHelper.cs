@@ -60,8 +60,19 @@ namespace TinyNavigationHelper.Forms
             }
         }
 
-        public async Task NavigateToAsync(string key, object parameter)
+        /// <summary>
+        /// Navigates to async.
+        /// </summary>
+        /// <returns>The to async.</returns>
+        /// <param name="page">Page.</param>
+        /// <remarks>Not exposed by the interface but added as an extension</remarks>
+        public async Task NavigateToAsync(Page page)
         {
+			if (_modalNavigationPage == null)
+			{
+				if (_app.MainPage is TabbedPage tabbedpage)
+				{
+					var selected = tabbedpage.CurrentPage;
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
@@ -83,29 +94,23 @@ namespace TinyNavigationHelper.Forms
                     {
                         var selected = tabbedpage.CurrentPage;
 
-                        if (selected.Navigation != null)
-                        {
-                            await selected.Navigation.PushAsync(page);
+					if (selected.Navigation != null)
+					{
+						await selected.Navigation.PushAsync(page);
 
-                            return;
-                        }
-                    }
+						return;
+					}
+				}
 
-                    await _app.MainPage.Navigation.PushAsync(page); 
-                }
-                else
-                {
+				await _app.MainPage.Navigation.PushAsync(page);
+			}
+			else
+			{
 
-                }
-            }
+			}
         }
 
-        public async Task NavigateToAsync(string key)
-        {
-            await NavigateToAsync(key, null);
-        }
-
-        public async Task OpenModalAsync(string key, object parameter, bool withNavigation = false)
+        public async Task NavigateToAsync(string key, object parameter)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
@@ -122,15 +127,46 @@ namespace TinyNavigationHelper.Forms
                     page = ViewCreator.Create(type, parameter);
                 }
 
-                if (withNavigation)
+                await NavigateToAsync(page);
+            }
+        }
+
+        public async Task NavigateToAsync(string key)
+        {
+            await NavigateToAsync(key, null);
+        }
+
+		public async Task OpenModalAsync(Page page, bool withNavigation = false)
+        {
+			if (withNavigation)
+			{
+				await _app.MainPage.Navigation.PushModalAsync(page);
+			}
+			else
+			{
+				_modalNavigationPage = new NavigationPage(page);
+				await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+			}
+        }
+
+        public async Task OpenModalAsync(string key, object parameter, bool withNavigation = false)
+        {
+            if (_views.ContainsKey(key.ToLower()))
+            {
+                var type = _views[key.ToLower()];
+
+                Page page = null;
+
+                if (parameter == null)
                 {
-                    await _app.MainPage.Navigation.PushModalAsync(page);
+                    page = (Page)Activator.CreateInstance(type); 
                 }
                 else
                 {
-                    _modalNavigationPage = new NavigationPage(page);
-                    await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+                    page = (Page)Activator.CreateInstance(type, parameter);
                 }
+
+                await OpenModalAsync(page, withNavigation);
             }
         }
 
