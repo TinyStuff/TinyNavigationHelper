@@ -68,46 +68,26 @@ namespace TinyNavigationHelper.Forms
         /// <remarks>Not exposed by the interface but added as an extension</remarks>
         public async Task NavigateToAsync(Page page)
         {
-			if (_modalNavigationPage == null)
-			{
-				if (_app.MainPage is TabbedPage tabbedpage)
-				{
-					var selected = tabbedpage.CurrentPage;
-            if (_views.ContainsKey(key.ToLower()))
+            if (_modalNavigationPage == null)
             {
-                var type = _views[key.ToLower()];
-
-                Page page = null;
-
-                if (parameter == null)
+                if (_app.MainPage is TabbedPage tabbedpage)
                 {
-                    page = ViewCreator.Create(type);
-                }
-                else
-                {
-                    page = ViewCreator.Create(type, parameter);
-                }
+                    var selected = tabbedpage.CurrentPage;
 
-                if(_modalNavigationPage == null)
-                {
-                    if (_app.MainPage is TabbedPage tabbedpage)
+                    if (selected.Navigation != null)
                     {
-                        var selected = tabbedpage.CurrentPage;
+                        await selected.Navigation.PushAsync(page);
 
-					if (selected.Navigation != null)
-					{
-						await selected.Navigation.PushAsync(page);
+                        return;
+                    }
+                }
 
-						return;
-					}
-				}
+                await _app.MainPage.Navigation.PushAsync(page);
+            }
+            else
+            {
 
-				await _app.MainPage.Navigation.PushAsync(page);
-			}
-			else
-			{
-
-			}
+            }
         }
 
         public async Task NavigateToAsync(string key, object parameter)
