@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Xamarin.Forms;
+using TinyNavigationHelper.Abstraction;
 
 namespace TinyNavigationHelper.Forms
 {
@@ -14,9 +15,12 @@ namespace TinyNavigationHelper.Forms
         private Dictionary<string, Type> _views = new Dictionary<string, Type>();
         private NavigationPage _modalNavigationPage;
 
+        public IViewCreator<Page> ViewCreator { get; set; }
+
         public FormsNavigationHelper(Application app)
         {
             _app = app;
+            ViewCreator = new DefaultViewCreator();
 
             Abstraction.NavigationHelper.Current = this;
         }
@@ -64,26 +68,26 @@ namespace TinyNavigationHelper.Forms
         /// <remarks>Not exposed by the interface but added as an extension</remarks>
         public async Task NavigateToAsync(Page page)
         {
-			if (_modalNavigationPage == null)
-			{
-				if (_app.MainPage is TabbedPage tabbedpage)
-				{
-					var selected = tabbedpage.CurrentPage;
+            if (_modalNavigationPage == null)
+            {
+                if (_app.MainPage is TabbedPage tabbedpage)
+                {
+                    var selected = tabbedpage.CurrentPage;
 
-					if (selected.Navigation != null)
-					{
-						await selected.Navigation.PushAsync(page);
+                    if (selected.Navigation != null)
+                    {
+                        await selected.Navigation.PushAsync(page);
 
-						return;
-					}
-				}
+                        return;
+                    }
+                }
 
-				await _app.MainPage.Navigation.PushAsync(page);
-			}
-			else
-			{
+                await _app.MainPage.Navigation.PushAsync(page);
+            }
+            else
+            {
 
-			}
+            }
         }
 
         public async Task NavigateToAsync(string key, object parameter)
@@ -96,11 +100,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = (Page)Activator.CreateInstance(type);
+                    page = ViewCreator.Create(type);
                 }
                 else
                 {
-                    page = (Page)Activator.CreateInstance(type, parameter);
+                    page = ViewCreator.Create(type, parameter);
                 }
 
                 await NavigateToAsync(page);
@@ -184,11 +188,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = (Page)Activator.CreateInstance(type);
+                    page = ViewCreator.Create(type);
                 }
                 else
                 {
-                    page = (Page)Activator.CreateInstance(type, parameter);
+                    page = ViewCreator.Create(type, parameter);
                 }
 
                 if (withNavigation)
