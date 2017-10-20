@@ -8,14 +8,25 @@ namespace TinyNavigationHelper.Forms
 {
     public class DefaultViewCreator : IViewCreator<Page>
     {
-        public Page CreateView(Type type)
-        {
+        public Page Create(Type type)
+        {         
             return (Page)Activator.CreateInstance(type);
         }
 
-        public Page CreateView(Type type, object parameter)
+        public Page Create(Type type, object parameter)
         {
-            return (Page)Activator.CreateInstance(type, parameter);
+            if (ParameterSetter.CanSet(type))
+            {
+                var page = Create(type);
+
+                ParameterSetter.Set(page, parameter);
+
+                return page;
+            }
+            else
+            {
+                return (Page)Activator.CreateInstance(type, parameter);
+            }
         }
     }
 }

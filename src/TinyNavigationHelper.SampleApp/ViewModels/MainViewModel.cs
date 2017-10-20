@@ -13,6 +13,11 @@ namespace SampleApp.ViewModels
             await NavigationHelper.Current.NavigateToAsync(obj.ToString());
         });
 
+        public ICommand NavigateWithParameter { get; } = new Command<string>(async (parameter) =>
+        {
+            await NavigationHelper.Current.NavigateToAsync("ParameterView", parameter);
+        });
+
         public ICommand SetRootView { get; } = new Command((obj) =>
         {
             NavigationHelper.Current.SetRootView(obj.ToString(), false);

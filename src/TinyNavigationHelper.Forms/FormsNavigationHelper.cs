@@ -70,13 +70,12 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = ViewCreator.CreateView(type);
+                    page = ViewCreator.Create(type);
                 }
                 else
                 {
-                    page = ViewCreator.CreateView(type, parameter);
+                    page = ViewCreator.Create(type, parameter);
                 }
-
 
                 if(_modalNavigationPage == null)
                 {
@@ -116,11 +115,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = ViewCreator.CreateView(type);
+                    page = ViewCreator.Create(type);
                 }
                 else
                 {
-                    page = ViewCreator.CreateView(type, parameter);
+                    page = ViewCreator.Create(type, parameter);
                 }
 
                 if (withNavigation)
@@ -173,11 +172,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = ViewCreator.CreateView(type);
+                    page = ViewCreator.Create(type);
                 }
                 else
                 {
-                    page = ViewCreator.CreateView(type, parameter);
+                    page = ViewCreator.Create(type, parameter);
                 }
 
                 if (withNavigation)
