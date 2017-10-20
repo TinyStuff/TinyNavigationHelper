@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Xamarin.Forms;
+using TinyNavigationHelper.Abstraction;
 
 namespace TinyNavigationHelper.Forms
 {
@@ -14,9 +15,12 @@ namespace TinyNavigationHelper.Forms
         private Dictionary<string, Type> _views = new Dictionary<string, Type>();
         private NavigationPage _modalNavigationPage;
 
+        public IViewCreator<Page> ViewCreator { get; set; }
+
         public FormsNavigationHelper(Application app)
         {
             _app = app;
+            ViewCreator = new DefaultViewCreator();
 
             Abstraction.NavigationHelper.Current = this;
         }
@@ -66,11 +70,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = (Page)Activator.CreateInstance(type);
+                    page = ViewCreator.CreateView(type);
                 }
                 else
                 {
-                    page = (Page)Activator.CreateInstance(type, parameter);
+                    page = ViewCreator.CreateView(type, parameter);
                 }
 
 
@@ -112,11 +116,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = (Page)Activator.CreateInstance(type); 
+                    page = ViewCreator.CreateView(type);
                 }
                 else
                 {
-                    page = (Page)Activator.CreateInstance(type, parameter);
+                    page = ViewCreator.CreateView(type, parameter);
                 }
 
                 if (withNavigation)
@@ -169,11 +173,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = (Page)Activator.CreateInstance(type);
+                    page = ViewCreator.CreateView(type);
                 }
                 else
                 {
-                    page = (Page)Activator.CreateInstance(type, parameter);
+                    page = ViewCreator.CreateView(type, parameter);
                 }
 
                 if (withNavigation)
