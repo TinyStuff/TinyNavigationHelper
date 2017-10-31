@@ -62,8 +62,21 @@ The NavigateTo method can take a argument if you want to pass a data to the view
 ```cs
 await navigationHelper.NavigateToAsync("MainView", "Parameter");
 ```
-The parameter will be sent to the constructor of the page.
+If your view has a NavigationParameter property it will be set. 
 
+```cs
+public class MainView
+{
+     public object NavigationParameter {get;set;}
+
+     public MainView()
+     {
+          
+     }
+}
+```
+
+Otherwise the parameter will be sent to the constructor.
 ```cs
 public class MainView
 {
