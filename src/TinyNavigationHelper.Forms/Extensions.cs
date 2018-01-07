@@ -27,5 +27,21 @@ namespace TinyNavigationHelper.Forms
 
             await formsHelper.OpenModalAsync(page, withNavigation);
         }
+
+        public static async Task NavigateToAsync<T>(this INavigationHelper helper)
+        {
+            var viewType = typeof(T);
+            var viewName = viewType.Name;
+
+            await helper.NavigateToAsync(viewName);
+        }
+
+        public static async Task NavigateToAsync<T>(this INavigationHelper helper, object parameter)
+        {
+            var viewType = typeof(T);
+            var viewName = viewType.Name;
+
+            await helper.NavigateToAsync(viewName, parameter);
+        }
     }
 }

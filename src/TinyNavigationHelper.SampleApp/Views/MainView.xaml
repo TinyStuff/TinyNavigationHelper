@@ -8,6 +8,8 @@
             <Button Text="Navigate with parameter" Command="{Binding NavigateWithParameter}" CommandParameter="Hello" />
             <Button Text="Tabbed view" Command="{Binding SetRootView}" CommandParameter="TabbedView" />
             <Button Text="News" Command="{Binding NavigateToNews}" />
+
+            <Button Text="About, using generics" Command="{Binding GenericNavigation}" />
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>
