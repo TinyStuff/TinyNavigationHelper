@@ -118,6 +118,10 @@ namespace TinyNavigationHelper.Forms
 
                 await NavigateToAsync(page);
             }
+            else
+            {
+                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
+            }
         }
 
         public async Task NavigateToAsync(string key)
@@ -156,6 +160,10 @@ namespace TinyNavigationHelper.Forms
                 }
 
                 await OpenModalAsync(page, withNavigation);
+            }
+            else
+            {
+                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
             }
         }
 
@@ -221,6 +229,10 @@ namespace TinyNavigationHelper.Forms
                 {
                     _app.MainPage = page;
                 }
+            }
+            else
+            {
+                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
             }
         }
 

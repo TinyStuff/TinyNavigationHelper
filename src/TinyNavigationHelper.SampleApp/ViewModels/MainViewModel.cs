@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using SampleApp.Views;
 using TinyNavigationHelper.Abstraction;
@@ -31,6 +32,18 @@ namespace SampleApp.ViewModels
             // if we are in a forms enviroment.
             var page = new NewsView();
             await NavigationHelper.Current.NavigateToAsync(page);
+        });
+
+        public ICommand NavigationError { get; } = new Command(async () =>
+        {
+            try
+            {
+                await NavigationHelper.Current.NavigateToAsync("MonkeyView");
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         });
     }
 }
