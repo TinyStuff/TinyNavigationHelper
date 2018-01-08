@@ -8,12 +8,7 @@
             <Button Text="Navigate with parameter" Command="{Binding NavigateWithParameter}" CommandParameter="Hello" />
             <Button Text="Tabbed view" Command="{Binding SetRootView}" CommandParameter="TabbedView" />
             <Button Text="News" Command="{Binding NavigateToNews}" />
-<<<<<<< HEAD
-             <Button Text="Error" Command="{Binding NavigationError}" />
-=======
-
-            <Button Text="About, using generics" Command="{Binding GenericNavigation}" />
->>>>>>> c07fcdc7762811e51e66a1f11f791a94bde2405e
+            <Button Text="Error" Command="{Binding NavigationError}" />
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

@@ -34,22 +34,22 @@ namespace SampleApp.ViewModels
             await NavigationHelper.Current.NavigateToAsync(page);
         });
 
-<<<<<<< HEAD
+
         public ICommand NavigationError { get; } = new Command(async () =>
         {
             try
             {
                 await NavigationHelper.Current.NavigateToAsync("MonkeyView");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
-=======
+        });
+
         public ICommand GenericNavigation { get; } = new Command(async () =>
         {
             await NavigationHelper.Current.NavigateToAsync<AboutView>(); 
->>>>>>> c07fcdc7762811e51e66a1f11f791a94bde2405e
         });
     }
 }
