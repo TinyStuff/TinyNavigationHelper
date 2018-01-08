@@ -32,5 +32,10 @@ namespace SampleApp.ViewModels
             var page = new NewsView();
             await NavigationHelper.Current.NavigateToAsync(page);
         });
+
+        public ICommand GenericNavigation { get; } = new Command(async () =>
+        {
+            await NavigationHelper.Current.NavigateToAsync<AboutView>(); 
+        });
     }
 }
