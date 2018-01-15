@@ -15,5 +15,7 @@ namespace TinyNavigationHelper
         Task OpenModalAsync(string key, object parameter, bool withNavigation = false);
         Task CloseModalAsync();
         Task BackAsync();
+        Task ResetStackWith(string key);
+        Task ResetStackWith(string key, object parameter);
     }
 }
