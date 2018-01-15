@@ -9,6 +9,7 @@
             <Button Text="Tabbed view" Command="{Binding SetRootView}" CommandParameter="TabbedView" />
             <Button Text="News" Command="{Binding NavigateToNews}" />
             <Button Text="Error" Command="{Binding NavigationError}" />
+            <Button Text="Reset Stack" Command="{Binding ResetStack}" />
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

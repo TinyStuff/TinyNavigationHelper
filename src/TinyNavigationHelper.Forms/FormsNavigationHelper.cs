@@ -71,13 +71,7 @@ namespace TinyNavigationHelper.Forms
             await NavigateToAsync(page, false);
         }
 
-        public void RegisterViewsInAssembly(Assembly assembly)
-        {
-            foreach (var type in assembly.DefinedTypes.Where(e => e.IsSubclassOf(typeof(Page))))
-            {
-                InternalRegisterView(type.AsType(), type.Name);
-            }
-        }
+       
 
       
         private async Task NavigateToAsync(Page page, bool resetStack)
@@ -124,6 +118,12 @@ namespace TinyNavigationHelper.Forms
 
                         return;
                     }
+                }
+
+                if (resetStack)
+                {
+                    _app.MainPage = new NavigationPage(page);
+                    return;
                 }
 
                 await _app.MainPage.Navigation.PushAsync(page);
