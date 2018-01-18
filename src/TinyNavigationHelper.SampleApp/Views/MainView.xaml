@@ -10,6 +10,7 @@
             <Button Text="News" Command="{Binding NavigateToNews}" />
             <Button Text="Error" Command="{Binding NavigationError}" />
             <Button Text="Reset Stack" Command="{Binding ResetStack}" />
+            <Button Text="Master Detail" Command="{Binding MasterDetail}" />
         </StackLayout>
 	</ContentPage.Content>
 </ContentPage>

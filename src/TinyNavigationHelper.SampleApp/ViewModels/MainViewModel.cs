@@ -59,6 +59,18 @@ namespace SampleApp.ViewModels
             }
         });
 
+        public ICommand MasterDetail { get; } = new Command(() =>
+        {
+            try
+            {
+                NavigationHelper.Current.SetRootView("MasterDetailView", false);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        });
+
         public ICommand GenericNavigation { get; } = new Command(async () =>
         {
             await NavigationHelper.Current.NavigateToAsync<AboutView>(); 
