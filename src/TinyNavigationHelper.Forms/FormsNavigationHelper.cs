@@ -68,11 +68,34 @@ namespace TinyNavigationHelper.Forms
         /// <remarks>Not exposed by the interface but added as an extension</remarks>
         public async Task NavigateToAsync(Page page)
         {
+            await NavigateToAsync(page, false);
+        }
+
+       
+
+      
+        private async Task NavigateToAsync(Page page, bool resetStack)
+        {
             if (_modalNavigationPage == null)
             {
                 if (_app.MainPage is TabbedPage tabbedpage)
                 {
                     var selected = tabbedpage.CurrentPage;
+
+                    if(resetStack)
+                    {
+                        var pages = selected.Navigation.NavigationStack.Count();
+
+                        await selected.Navigation.PushAsync(page);
+
+                        for (var i = pages - 1; i >= 0; i--)
+                        {
+                            var p = selected.Navigation.NavigationStack[i];
+                            selected.Navigation.RemovePage(p);
+                        }
+
+                        return;
+                    }
 
                     if (selected.Navigation != null)
                     {
@@ -81,14 +104,26 @@ namespace TinyNavigationHelper.Forms
                         return;
                     }
                 }
-                else if(_app.MainPage is MasterDetailPage masterDetailPage)
+                else if (_app.MainPage is MasterDetailPage masterDetailPage)
                 {
-                    if(masterDetailPage.Detail.Navigation != null)
+                    if(resetStack)
+                    {
+                        masterDetailPage.Detail = new NavigationPage(page);
+                        return;
+                    }
+
+                    if (masterDetailPage.Detail.Navigation != null)
                     {
                         await masterDetailPage.Detail.Navigation.PushAsync(page);
 
                         return;
                     }
+                }
+
+                if (resetStack)
+                {
+                    _app.MainPage = new NavigationPage(page);
+                    return;
                 }
 
                 await _app.MainPage.Navigation.PushAsync(page);
@@ -239,6 +274,36 @@ namespace TinyNavigationHelper.Forms
         public void SetRootView(string key, bool withNavigation = true)
         {
             SetRootView(key, null, withNavigation);
+        }
+
+        public async Task ResetStackWith(string key)
+        {
+            await ResetStackWith(key, null);
+        }
+
+        public async Task ResetStackWith(string key, object parameter)
+        {
+            if (_views.ContainsKey(key.ToLower()))
+            {
+                var type = _views[key.ToLower()];
+
+                Page page = null;
+
+                if (parameter == null)
+                {
+                    page = ViewCreator.Create(type);
+                }
+                else
+                {
+                    page = ViewCreator.Create(type, parameter);
+                }
+
+                await NavigateToAsync(page, true);
+            }
+            else
+            {
+                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
+            }
         }
     }
 }

@@ -47,6 +47,18 @@ namespace SampleApp.ViewModels
             }
         });
 
+        public ICommand ResetStack { get; } = new Command(async () =>
+        {
+            try
+            {
+                await NavigationHelper.Current.ResetStackWith("AboutView");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        });
+
         public ICommand GenericNavigation { get; } = new Command(async () =>
         {
             await NavigationHelper.Current.NavigateToAsync<AboutView>(); 
