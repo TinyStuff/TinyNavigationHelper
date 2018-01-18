@@ -86,6 +86,7 @@ namespace TinyNavigationHelper.Forms
                     {
                         var pages = selected.Navigation.NavigationStack.Count();
 
+
                         await selected.Navigation.PushAsync(page);
 
                         for (var i = pages - 1; i >= 0; i--)
@@ -93,6 +94,8 @@ namespace TinyNavigationHelper.Forms
                             var p = selected.Navigation.NavigationStack[i];
                             selected.Navigation.RemovePage(p);
                         }
+
+
 
                         return;
                     }
