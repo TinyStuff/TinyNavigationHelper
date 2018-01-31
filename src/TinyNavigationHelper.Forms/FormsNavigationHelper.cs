@@ -115,6 +115,15 @@ namespace TinyNavigationHelper.Forms
                         return;
                     }
 
+                    if(masterDetailPage.Detail is TabbedPage tabbedPage)
+                    {
+                        if(tabbedPage.CurrentPage.Navigation != null)
+                        {
+                            await tabbedPage.CurrentPage.Navigation.PushAsync(page);
+                            return;
+                        }
+                    }
+
                     if (masterDetailPage.Detail.Navigation != null)
                     {
                         await masterDetailPage.Detail.Navigation.PushAsync(page);
@@ -231,6 +240,14 @@ namespace TinyNavigationHelper.Forms
             }
             else if (_app.MainPage is MasterDetailPage masterDetailPage)
             {
+                if(masterDetailPage.Detail is TabbedPage tabbedPage)
+                {
+                    if (tabbedPage.CurrentPage.Navigation != null)
+                    {
+                        await tabbedPage.CurrentPage.Navigation.PopAsync();
+                        return;
+                    }
+                }
                 if (masterDetailPage.Detail.Navigation != null)
                 {
                     await masterDetailPage.Detail.Navigation.PopAsync();
