@@ -199,11 +199,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (parameter == null)
                 {
-                    page = (Page)Activator.CreateInstance(type); 
+                    page = ViewCreator.Create(type);
                 }
                 else
                 {
-                    page = (Page)Activator.CreateInstance(type, parameter);
+                    page = ViewCreator.Create(type, parameter);
                 }
 
                 await OpenModalAsync(page, withNavigation);
