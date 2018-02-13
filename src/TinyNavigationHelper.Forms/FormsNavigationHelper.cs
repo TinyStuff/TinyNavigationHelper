@@ -180,12 +180,13 @@ namespace TinyNavigationHelper.Forms
         {
 			if (withNavigation)
 			{
-				await _app.MainPage.Navigation.PushModalAsync(page);
+                _modalNavigationPage = new NavigationPage(page);
+                await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+				
 			}
 			else
 			{
-				_modalNavigationPage = new NavigationPage(page);
-				await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+                await _app.MainPage.Navigation.PushModalAsync(page);
 			}
         }
 
