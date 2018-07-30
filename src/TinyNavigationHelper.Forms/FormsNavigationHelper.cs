@@ -70,9 +70,6 @@ namespace TinyNavigationHelper.Forms
         {
             await NavigateToAsync(page, false);
         }
-
-       
-
       
         private async Task NavigateToAsync(Page page, bool resetStack)
         {
@@ -142,7 +139,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-
+                await _modalNavigationPage.PushAsync(page);
             }
         }
 
