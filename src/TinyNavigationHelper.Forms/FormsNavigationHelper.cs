@@ -164,7 +164,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
+                throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
         }
 
@@ -208,7 +208,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
+                throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
         }
 
@@ -285,7 +285,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
+                throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
         }
 
@@ -320,7 +320,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-                throw new ViewCreationException("The view you're trying to navigate to has not been registered");
+                throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
         }
     }
