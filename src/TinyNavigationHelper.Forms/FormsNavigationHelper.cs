@@ -13,7 +13,7 @@ namespace TinyNavigationHelper.Forms
     {
         private Application _app;
         private Dictionary<string, Type> _views = new Dictionary<string, Type>();
-        private NavigationPage _modalNavigationPage;
+        private NavigationPage? _modalNavigationPage;
 
         public IViewCreator<Page> ViewCreator { get; set; }
 
@@ -121,9 +121,9 @@ namespace TinyNavigationHelper.Forms
                         }
                     }
 
-                    if (masterDetailPage.Detail.Navigation != null)
+                    if (masterDetailPage?.Detail.Navigation != null)
                     {
-                        await masterDetailPage.Detail.Navigation.PushAsync(page);
+                        await masterDetailPage?.Detail.Navigation.PushAsync(page);
 
                         return;
                     }
@@ -135,7 +135,7 @@ namespace TinyNavigationHelper.Forms
                     return;
                 }
 
-                await _app.MainPage.Navigation.PushAsync(page);
+                await _app.MainPage?.Navigation.PushAsync(page);
             }
             else
             {
@@ -145,13 +145,23 @@ namespace TinyNavigationHelper.Forms
 
         public async Task NavigateToAsync(string key, object parameter)
         {
+            await NavigateTo(key, parameter);
+        }
+
+        public async Task NavigateToAsync(string key)
+        {
+            await NavigateTo(key, null);
+        }
+
+        private async Task NavigateTo(string key, object? parameter)
+        {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                Page page = null;
+                Page? page = null;
 
-                if (parameter == null)
+                if(parameter == null)
                 {
                     page = ViewCreator.Create(type);
                 }
@@ -166,11 +176,6 @@ namespace TinyNavigationHelper.Forms
             {
                 throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
-        }
-
-        public async Task NavigateToAsync(string key)
-        {
-            await NavigateToAsync(key, null);
         }
 
 		public async Task OpenModalAsync(Page page, bool withNavigation = false)
@@ -189,11 +194,21 @@ namespace TinyNavigationHelper.Forms
 
         public async Task OpenModalAsync(string key, object parameter, bool withNavigation = false)
         {
+            await OpenModal(key, parameter, withNavigation);
+        }
+
+        public async Task OpenModalAsync(string key, bool withNavigation = false)
+        {
+            await OpenModal(key, null, withNavigation);
+        }
+
+        private async Task OpenModal(string key, object? parameter, bool withNavigation = false)
+        {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                Page page = null;
+                Page? page = null;
 
                 if (parameter == null)
                 {
@@ -210,11 +225,6 @@ namespace TinyNavigationHelper.Forms
             {
                 throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
-        }
-
-        public async Task OpenModalAsync(string key, bool withNavigation = false)
-        {
-            await OpenModalAsync(key, null, withNavigation);
         }
 
         public async Task CloseModalAsync()
@@ -246,24 +256,34 @@ namespace TinyNavigationHelper.Forms
                         return;
                     }
                 }
-                if (masterDetailPage.Detail.Navigation != null)
+                if (masterDetailPage?.Detail.Navigation != null)
                 {
-                    await masterDetailPage.Detail.Navigation.PopAsync();
+                    await masterDetailPage.Detail?.Navigation.PopAsync();
 
                     return;
                 }
             }
 
-            await _app.MainPage.Navigation.PopAsync();
+            await _app.MainPage?.Navigation.PopAsync();
         }
 
         public void SetRootView(string key, object parameter, bool withNavigation = true)
+        {
+            SetRoot(key, parameter, withNavigation);
+        }
+
+        public void SetRootView(string key, bool withNavigation = true)
+        {
+            SetRoot(key, null, withNavigation);
+        }
+
+        private void SetRoot(string key, object? parameter, bool withNavigation)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                Page page = null;
+                Page? page = null;
 
                 if (parameter == null)
                 {
@@ -289,23 +309,23 @@ namespace TinyNavigationHelper.Forms
             }
         }
 
-        public void SetRootView(string key, bool withNavigation = true)
-        {
-            SetRootView(key, null, withNavigation);
-        }
-
         public async Task ResetStackWith(string key)
         {
-            await ResetStackWith(key, null);
+            await ResetStack(key, null);
         }
 
         public async Task ResetStackWith(string key, object parameter)
+        {
+            await ResetStack(key, parameter);
+        }
+
+        private async Task ResetStack(string key, object? parameter)
         {
             if (_views.ContainsKey(key.ToLower()))
             {
                 var type = _views[key.ToLower()];
 
-                Page page = null;
+                Page? page = null;
 
                 if (parameter == null)
                 {
