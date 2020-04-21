@@ -175,11 +175,6 @@ namespace TinyNavigationHelper.Forms
             {
                 throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
-
-            if (parameter is null)
-            {
-                throw new ArgumentNullException(nameof(parameter));
-            }
         }
 
         public async Task OpenModalAsync(Page page, bool withNavigation = false)
