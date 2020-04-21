@@ -11,6 +11,11 @@ namespace TinyNavigationHelper.Forms
         private List<string> routes = new List<string>();
         private Dictionary<string, string> queries = new Dictionary<string, string>();
 
+        public ShellNavigationHelper()
+        {
+            Abstraction.NavigationHelper.Current = this;
+        }
+
         public void RegisterRoute(string route, Type type)
         {
             Routing.RegisterRoute(route, type);
