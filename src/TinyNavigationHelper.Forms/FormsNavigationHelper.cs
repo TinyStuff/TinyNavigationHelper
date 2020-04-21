@@ -11,15 +11,14 @@ namespace TinyNavigationHelper.Forms
 {
     public class FormsNavigationHelper : INavigationHelper
     {
-        private Application _app;
+        private readonly Application _app = Application.Current;
         private Dictionary<string, Type> _views = new Dictionary<string, Type>();
         private NavigationPage? _modalNavigationPage;
 
         public IViewCreator<Page> ViewCreator { get; set; }
 
-        public FormsNavigationHelper(Application app)
+        public FormsNavigationHelper()
         {
-            _app = app;
             ViewCreator = new DefaultViewCreator();
 
             Abstraction.NavigationHelper.Current = this;
@@ -28,7 +27,7 @@ namespace TinyNavigationHelper.Forms
         public void RegisterView<T>(string key) where T : Page
         {
             var type = typeof(T);
-            InternalRegisterView(type, key); 
+            InternalRegisterView(type, key);
         }
 
         public void RegisterView(string key, Type type)
@@ -38,15 +37,15 @@ namespace TinyNavigationHelper.Forms
 
         private void InternalRegisterView(Type type, string key)
         {
-			     if (_views.ContainsKey(key.ToLower()))
-			     {
-				       _views[key.ToLower()] = type;
-			     }
-			     else
-			     {
-				      _views.Add(key.ToLower(), type);
-			     }
-		   }
+            if (_views.ContainsKey(key.ToLower()))
+            {
+                _views[key.ToLower()] = type;
+            }
+            else
+            {
+                _views.Add(key.ToLower(), type);
+            }
+        }
 
         /// <summary>
         /// Registers the views in assembly that inherit from Page
@@ -54,7 +53,7 @@ namespace TinyNavigationHelper.Forms
         /// <param name="assembly">The assembly to inspect</param>
         public void RegisterViewsInAssembly(Assembly assembly)
         {
-            foreach(var type in assembly.DefinedTypes.Where(e => e.IsSubclassOf(typeof(Page))))
+            foreach (var type in assembly.DefinedTypes.Where(e => e.IsSubclassOf(typeof(Page))))
             {
                 InternalRegisterView(type.AsType(), type.Name);
             }
@@ -70,7 +69,7 @@ namespace TinyNavigationHelper.Forms
         {
             await NavigateToAsync(page, false);
         }
-      
+
         private async Task NavigateToAsync(Page page, bool resetStack)
         {
             if (_modalNavigationPage == null)
@@ -79,7 +78,7 @@ namespace TinyNavigationHelper.Forms
                 {
                     var selected = tabbedpage.CurrentPage;
 
-                    if(resetStack)
+                    if (resetStack)
                     {
                         var pages = selected.Navigation.NavigationStack.Count();
 
@@ -106,15 +105,15 @@ namespace TinyNavigationHelper.Forms
                 }
                 else if (_app.MainPage is MasterDetailPage masterDetailPage)
                 {
-                    if(resetStack)
+                    if (resetStack)
                     {
                         masterDetailPage.Detail = new NavigationPage(page);
                         return;
                     }
 
-                    if(masterDetailPage.Detail is TabbedPage tabbedPage)
+                    if (masterDetailPage.Detail is TabbedPage tabbedPage)
                     {
-                        if(tabbedPage.CurrentPage.Navigation != null)
+                        if (tabbedPage.CurrentPage.Navigation != null)
                         {
                             await tabbedPage.CurrentPage.Navigation.PushAsync(page);
                             return;
@@ -123,7 +122,7 @@ namespace TinyNavigationHelper.Forms
 
                     if (masterDetailPage?.Detail.Navigation != null)
                     {
-                        await masterDetailPage?.Detail.Navigation.PushAsync(page);
+                        await masterDetailPage.Detail.Navigation.PushAsync(page);
 
                         return;
                     }
@@ -135,7 +134,7 @@ namespace TinyNavigationHelper.Forms
                     return;
                 }
 
-                await _app.MainPage?.Navigation.PushAsync(page);
+                await _app.MainPage.Navigation.PushAsync(page);
             }
             else
             {
@@ -143,12 +142,12 @@ namespace TinyNavigationHelper.Forms
             }
         }
 
-        public async Task NavigateToAsync(string key, object parameter)
+        public virtual async Task NavigateToAsync(string key, object parameter)
         {
             await NavigateTo(key, parameter);
         }
 
-        public async Task NavigateToAsync(string key)
+        public virtual async Task NavigateToAsync(string key)
         {
             await NavigateTo(key, null);
         }
@@ -161,7 +160,7 @@ namespace TinyNavigationHelper.Forms
 
                 Page? page = null;
 
-                if(parameter == null)
+                if (parameter == null)
                 {
                     page = ViewCreator.Create(type);
                 }
@@ -176,20 +175,25 @@ namespace TinyNavigationHelper.Forms
             {
                 throw new ViewCreationException($"The view '{key}, you're trying to navigate to has not been registered");
             }
+
+            if (parameter is null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
         }
 
-		public async Task OpenModalAsync(Page page, bool withNavigation = false)
+        public async Task OpenModalAsync(Page page, bool withNavigation = false)
         {
-			if (withNavigation)
-			{
+            if (withNavigation)
+            {
                 _modalNavigationPage = new NavigationPage(page);
                 await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
-				
-			}
-			else
-			{
+
+            }
+            else
+            {
                 await _app.MainPage.Navigation.PushModalAsync(page);
-			}
+            }
         }
 
         public async Task OpenModalAsync(string key, object parameter, bool withNavigation = false)
@@ -228,7 +232,7 @@ namespace TinyNavigationHelper.Forms
         }
 
         public async Task CloseModalAsync()
-        {           
+        {
             await _app.MainPage.Navigation.PopModalAsync();
             _modalNavigationPage = null;
         }
@@ -248,7 +252,7 @@ namespace TinyNavigationHelper.Forms
             }
             else if (_app.MainPage is MasterDetailPage masterDetailPage)
             {
-                if(masterDetailPage.Detail is TabbedPage tabbedPage)
+                if (masterDetailPage.Detail is TabbedPage tabbedPage)
                 {
                     if (tabbedPage.CurrentPage.Navigation != null)
                     {
@@ -256,15 +260,15 @@ namespace TinyNavigationHelper.Forms
                         return;
                     }
                 }
-                if (masterDetailPage?.Detail.Navigation != null)
+                if (masterDetailPage.Detail.Navigation != null)
                 {
-                    await masterDetailPage.Detail?.Navigation.PopAsync();
+                    await masterDetailPage.Detail.Navigation.PopAsync();
 
                     return;
                 }
             }
 
-            await _app.MainPage?.Navigation.PopAsync();
+            await _app.MainPage.Navigation.PopAsync();
         }
 
         public void SetRootView(string key, object parameter, bool withNavigation = true)
