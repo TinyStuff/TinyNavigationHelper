@@ -38,6 +38,11 @@ namespace TinyNavigationHelper.Forms
         {
             try
             {
+                if (Views.ContainsKey(key))
+                {
+                    await base.NavigateToAsync(key);
+                    return;
+                }
 
                 var route = key.TrimStart('/').Split('?');
 

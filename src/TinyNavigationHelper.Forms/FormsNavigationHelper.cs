@@ -12,7 +12,7 @@ namespace TinyNavigationHelper.Forms
     public class FormsNavigationHelper : INavigationHelper
     {
         private readonly Application _app = Application.Current;
-        private Dictionary<string, Type> _views = new Dictionary<string, Type>();
+        protected Dictionary<string, Type> Views = new Dictionary<string, Type>();
         private NavigationPage? _modalNavigationPage;
 
         public IViewCreator<Page> ViewCreator { get; set; }
@@ -37,13 +37,13 @@ namespace TinyNavigationHelper.Forms
 
         private void InternalRegisterView(Type type, string key)
         {
-            if (_views.ContainsKey(key.ToLower()))
+            if (Views.ContainsKey(key.ToLower()))
             {
-                _views[key.ToLower()] = type;
+                Views[key.ToLower()] = type;
             }
             else
             {
-                _views.Add(key.ToLower(), type);
+                Views.Add(key.ToLower(), type);
             }
         }
 
@@ -154,9 +154,9 @@ namespace TinyNavigationHelper.Forms
 
         private async Task NavigateTo(string key, object? parameter)
         {
-            if (_views.ContainsKey(key.ToLower()))
+            if (Views.ContainsKey(key.ToLower()))
             {
-                var type = _views[key.ToLower()];
+                var type = Views[key.ToLower()];
 
                 Page? page = null;
 
@@ -208,9 +208,9 @@ namespace TinyNavigationHelper.Forms
 
         private async Task OpenModal(string key, object? parameter, bool withNavigation = false)
         {
-            if (_views.ContainsKey(key.ToLower()))
+            if (Views.ContainsKey(key.ToLower()))
             {
-                var type = _views[key.ToLower()];
+                var type = Views[key.ToLower()];
 
                 Page? page = null;
 
@@ -283,9 +283,9 @@ namespace TinyNavigationHelper.Forms
 
         private void SetRoot(string key, object? parameter, bool withNavigation)
         {
-            if (_views.ContainsKey(key.ToLower()))
+            if (Views.ContainsKey(key.ToLower()))
             {
-                var type = _views[key.ToLower()];
+                var type = Views[key.ToLower()];
 
                 Page? page = null;
 
@@ -325,9 +325,9 @@ namespace TinyNavigationHelper.Forms
 
         private async Task ResetStack(string key, object? parameter)
         {
-            if (_views.ContainsKey(key.ToLower()))
+            if (Views.ContainsKey(key.ToLower()))
             {
-                var type = _views[key.ToLower()];
+                var type = Views[key.ToLower()];
 
                 Page? page = null;
 
