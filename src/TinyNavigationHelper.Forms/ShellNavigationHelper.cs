@@ -43,7 +43,7 @@ namespace TinyNavigationHelper.Forms
         {
             try
             {
-                if (Views.ContainsKey(key))
+                if (Views.ContainsKey(key.ToLower()))
                 {
                     await base.NavigateToAsync(key);
                     return;
