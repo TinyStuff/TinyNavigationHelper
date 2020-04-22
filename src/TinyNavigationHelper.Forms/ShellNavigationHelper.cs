@@ -46,10 +46,10 @@ namespace TinyNavigationHelper.Forms
                     return;
                 }
 
-                var route = key.TrimStart('/').Split('?');
-
                 if (key.Contains("?"))
                 {
+                    var route = key.Split('?');
+
                     var tinyId = Guid.NewGuid().ToString();
                     key = $"{key}&tinyid={tinyId}";
 
