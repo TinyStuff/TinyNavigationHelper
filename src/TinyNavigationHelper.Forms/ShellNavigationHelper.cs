@@ -62,9 +62,23 @@ namespace TinyNavigationHelper.Forms
             {
                 await base.NavigateToAsync(key);
             }
+        }
 
+        protected override void InternalRegisterView(Type type, string key)
+        {
+            base.InternalRegisterView(type, key);
 
+            if (type.GenericTypeArguments.Length > 0)
+            {
+                RegisterRoute(type.GenericTypeArguments[0].Name, type);
+            }
 
+            if (type.BaseType.GenericTypeArguments.Length > 0)
+            {
+                RegisterRoute(type.BaseType.GenericTypeArguments[0].Name, type);
+            }
+
+            RegisterRoute(key, type);
         }
     }
 }
