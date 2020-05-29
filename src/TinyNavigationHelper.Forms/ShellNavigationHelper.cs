@@ -17,7 +17,15 @@ namespace TinyNavigationHelper.Forms
 
         public void RegisterRoute(string route, Type type)
         {
-            Routing.RegisterRoute(route, type);
+            try
+            {
+
+                Routing.RegisterRoute(route, type);
+            }
+            catch (ArgumentException)
+            {
+                //Catch to avoid app crash if route already registered
+            }
         }
 
         internal Dictionary<string, string> GetQueryParameters(string tinyId)
