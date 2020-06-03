@@ -9,6 +9,7 @@ namespace TinyNavigationHelper.Forms
     public class ShellNavigationHelper : FormsNavigationHelper
     {
         private Dictionary<string, string> queries = new Dictionary<string, string>();
+        private Dictionary<string, object> parameters = new Dictionary<string, object>();
 
         public ShellNavigationHelper()
         {
@@ -44,6 +45,16 @@ namespace TinyNavigationHelper.Forms
             return parameters;
         }
 
+        internal object? GetParameter(string tinyId)
+        {
+            if(parameters.ContainsKey(tinyId))
+            {
+                return parameters[tinyId];
+            }
+
+            return null;
+        }
+
         public async override Task NavigateToAsync(string key)
         {
             try
@@ -63,6 +74,41 @@ namespace TinyNavigationHelper.Forms
 
                     queries.Add(tinyId, route.Last());
                 }
+
+                await Shell.Current.GoToAsync(key);
+            }
+            catch (Exception ex)
+            {
+                await base.NavigateToAsync(key);
+            }
+        }
+
+        public async override Task NavigateToAsync(string key, object parameter)
+        {
+            try
+            {
+                if (Views.ContainsKey(key.ToLower()))
+                {
+                    await base.NavigateToAsync(key, parameter);
+                    return;
+                }
+
+                var tinyId = Guid.NewGuid().ToString();
+
+                if (key.Contains("?"))
+                {
+                    var route = key.Split('?');
+                    
+                    key = $"{key}&tinyid={tinyId}";
+
+                    queries.Add(tinyId, route.Last());
+                }
+                else
+                {
+                    key = $"{key}?tinyid={tinyId}";
+                }
+
+                parameters.Add(tinyId, parameter);
 
                 await Shell.Current.GoToAsync(key);
             }
