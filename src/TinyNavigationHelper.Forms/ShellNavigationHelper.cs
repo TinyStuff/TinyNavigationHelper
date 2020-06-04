@@ -31,7 +31,9 @@ namespace TinyNavigationHelper.Forms
 
         internal Dictionary<string, string> GetQueryParameters(string tinyId)
         {
-            var values = queries[tinyId].Split('&');
+            var query = queries[tinyId];
+
+            var values = query.Split('&');
 
             var parameters = new Dictionary<string, string>();
 
@@ -42,6 +44,8 @@ namespace TinyNavigationHelper.Forms
                 parameters.Add(split.First(), split.Last());
             }
 
+            parameters.Remove(tinyId);
+
             return parameters;
         }
 
@@ -49,7 +53,11 @@ namespace TinyNavigationHelper.Forms
         {
             if(parameters.ContainsKey(tinyId))
             {
-                return parameters[tinyId];
+                var parameter = parameters[tinyId];
+
+                parameters.Remove(tinyId);
+
+                return parameter;
             }
 
             return null;
