@@ -11,7 +11,6 @@ namespace TinyNavigationHelper.Forms
 {
     public class FormsNavigationHelper : INavigationHelper
     {
-        private readonly Application _app = Application.Current;
         protected Dictionary<string, Type> Views = new Dictionary<string, Type>();
         private NavigationPage? _modalNavigationPage;
 
@@ -74,7 +73,7 @@ namespace TinyNavigationHelper.Forms
         {
             if (_modalNavigationPage == null)
             {
-                if (_app.MainPage is TabbedPage tabbedpage)
+                if (Application.Current.MainPage is TabbedPage tabbedpage)
                 {
                     var selected = tabbedpage.CurrentPage;
 
@@ -103,7 +102,7 @@ namespace TinyNavigationHelper.Forms
                         return;
                     }
                 }
-                else if (_app.MainPage is MasterDetailPage masterDetailPage)
+                else if (Application.Current.MainPage is MasterDetailPage masterDetailPage)
                 {
                     if (resetStack)
                     {
@@ -130,11 +129,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (resetStack)
                 {
-                    _app.MainPage = new NavigationPage(page);
+                    Application.Current.MainPage = new NavigationPage(page);
                     return;
                 }
 
-                await _app.MainPage.Navigation.PushAsync(page);
+                await Application.Current.MainPage.Navigation.PushAsync(page);
             }
             else
             {
@@ -182,12 +181,12 @@ namespace TinyNavigationHelper.Forms
             if (withNavigation)
             {
                 _modalNavigationPage = new NavigationPage(page);
-                await _app.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+                await Application.Current.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
 
             }
             else
             {
-                await _app.MainPage.Navigation.PushModalAsync(page);
+                await Application.Current.MainPage.Navigation.PushModalAsync(page);
             }
         }
 
@@ -228,13 +227,13 @@ namespace TinyNavigationHelper.Forms
 
         public async Task CloseModalAsync()
         {
-            await _app.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
             _modalNavigationPage = null;
         }
 
         public async Task BackAsync()
         {
-            if (_app.MainPage is TabbedPage tabbedpage)
+            if (Application.Current.MainPage is TabbedPage tabbedpage)
             {
                 var selected = (Page)tabbedpage.CurrentPage;
 
@@ -245,7 +244,7 @@ namespace TinyNavigationHelper.Forms
                     return;
                 }
             }
-            else if (_app.MainPage is MasterDetailPage masterDetailPage)
+            else if (Application.Current.MainPage is MasterDetailPage masterDetailPage)
             {
                 if (masterDetailPage.Detail is TabbedPage tabbedPage)
                 {
@@ -263,7 +262,7 @@ namespace TinyNavigationHelper.Forms
                 }
             }
 
-            await _app.MainPage.Navigation.PopAsync();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
         public void SetRootView(string key, object parameter, bool withNavigation = true)
@@ -295,11 +294,11 @@ namespace TinyNavigationHelper.Forms
 
                 if (withNavigation)
                 {
-                    _app.MainPage = new NavigationPage(page);
+                    Application.Current.MainPage = new NavigationPage(page);
                 }
                 else
                 {
-                    _app.MainPage = page;
+                    Application.Current.MainPage = page;
                 }
             }
             else
