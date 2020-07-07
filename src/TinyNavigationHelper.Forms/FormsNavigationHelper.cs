@@ -233,36 +233,43 @@ namespace TinyNavigationHelper.Forms
 
         public async Task BackAsync()
         {
-            if (Application.Current.MainPage is TabbedPage tabbedpage)
+            if (_modalNavigationPage == null)
             {
-                var selected = (Page)tabbedpage.CurrentPage;
-
-                if (selected.Navigation != null)
+                if (Application.Current.MainPage is TabbedPage tabbedpage)
                 {
-                    await selected.Navigation.PopAsync();
+                    var selected = (Page)tabbedpage.CurrentPage;
 
-                    return;
-                }
-            }
-            else if (Application.Current.MainPage is MasterDetailPage masterDetailPage)
-            {
-                if (masterDetailPage.Detail is TabbedPage tabbedPage)
-                {
-                    if (tabbedPage.CurrentPage.Navigation != null)
+                    if (selected.Navigation != null)
                     {
-                        await tabbedPage.CurrentPage.Navigation.PopAsync();
+                        await selected.Navigation.PopAsync();
+
                         return;
                     }
                 }
-                if (masterDetailPage.Detail.Navigation != null)
+                else if (Application.Current.MainPage is MasterDetailPage masterDetailPage)
                 {
-                    await masterDetailPage.Detail.Navigation.PopAsync();
+                    if (masterDetailPage.Detail is TabbedPage tabbedPage)
+                    {
+                        if (tabbedPage.CurrentPage.Navigation != null)
+                        {
+                            await tabbedPage.CurrentPage.Navigation.PopAsync();
+                            return;
+                        }
+                    }
+                    if (masterDetailPage.Detail.Navigation != null)
+                    {
+                        await masterDetailPage.Detail.Navigation.PopAsync();
 
-                    return;
+                        return;
+                    }
                 }
-            }
 
-            await Application.Current.MainPage.Navigation.PopAsync();
+                await Application.Current.MainPage.Navigation.PopAsync();
+            }
+            else
+            {
+                await _modalNavigationPage.PopAsync();
+            }
         }
 
         public void SetRootView(string key, object parameter, bool withNavigation = true)
