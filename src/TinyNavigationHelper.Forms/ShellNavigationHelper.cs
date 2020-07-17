@@ -65,8 +65,7 @@ namespace TinyNavigationHelper.Forms
 
         public async override Task NavigateToAsync(string key)
         {
-            try
-            {
+
                 if (Views.ContainsKey(key.ToLower()))
                 {
                     await base.NavigateToAsync(key);
@@ -84,11 +83,7 @@ namespace TinyNavigationHelper.Forms
                 }
 
                 await Shell.Current.GoToAsync(key);
-            }
-            catch (Exception ex)
-            {
-                await base.NavigateToAsync(key);
-            }
+           
         }
 
         public async override Task NavigateToAsync(string key, object parameter)
