@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Xamarin.Forms;
 using TinyNavigationHelper.Abstraction;
+using TinyMvvm.Forms;
 
 namespace TinyNavigationHelper.Forms
 {
@@ -18,7 +19,16 @@ namespace TinyNavigationHelper.Forms
 
         public FormsNavigationHelper()
         {
-            ViewCreator = new DefaultViewCreator();
+            if(Assembly.GetExecutingAssembly().FullName.Contains("TinyMvvm"))
+            {
+                ViewCreator = new TinyMvvmViewCreator();
+            }
+            else
+            {
+                ViewCreator = new DefaultViewCreator();
+            }
+
+            
 
             Abstraction.NavigationHelper.Current = this;
         }
