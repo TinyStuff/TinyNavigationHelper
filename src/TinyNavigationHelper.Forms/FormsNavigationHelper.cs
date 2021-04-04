@@ -13,8 +13,7 @@ namespace TinyNavigationHelper.Forms
     public class FormsNavigationHelper : INavigationHelper
     {
         protected Dictionary<string, Type> Views = new Dictionary<string, Type>();
-        private NavigationPage? _modalNavigationPage;
-
+        
         public IViewCreator<Page> ViewCreator { get; set; }
 
         public FormsNavigationHelper()
@@ -81,7 +80,8 @@ namespace TinyNavigationHelper.Forms
 
         private async Task NavigateToAsync(Page page, bool resetStack)
         {
-            if (_modalNavigationPage == null)
+            var modalNavigationPage = Application.Current.MainPage.Navigation.ModalStack.LastOrDefault() as NavigationPage;
+            if (modalNavigationPage == null)
             {
                 if (Application.Current.MainPage is TabbedPage tabbedpage)
                 {
@@ -147,7 +147,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-                await _modalNavigationPage.PushAsync(page);
+                await modalNavigationPage.PushAsync(page);
             }
         }
 
@@ -190,8 +190,8 @@ namespace TinyNavigationHelper.Forms
         {
             if (withNavigation)
             {
-                _modalNavigationPage = new NavigationPage(page);
-                await Application.Current.MainPage.Navigation.PushModalAsync(_modalNavigationPage);
+                var modalNavigationPage = new NavigationPage(page);
+                await Application.Current.MainPage.Navigation.PushModalAsync(modalNavigationPage);
 
             }
             else
@@ -238,12 +238,12 @@ namespace TinyNavigationHelper.Forms
         public async Task CloseModalAsync()
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
-            _modalNavigationPage = null;
         }
 
         public async Task BackAsync()
         {
-            if (_modalNavigationPage == null)
+            var modalNavigationPage = Application.Current.MainPage.Navigation.ModalStack.LastOrDefault() as NavigationPage;
+            if (modalNavigationPage == null)
             {
                 if (Application.Current.MainPage is TabbedPage tabbedpage)
                 {
@@ -278,7 +278,7 @@ namespace TinyNavigationHelper.Forms
             }
             else
             {
-                await _modalNavigationPage.PopAsync();
+                await modalNavigationPage.PopAsync();
             }
         }
 
